@@ -41,13 +41,14 @@ class Empleado:
 #devuelve un hash de 2 bytes (16 bits) a partir del apellido y nombre del empleado, para usarlo como clave en la tabla hash, no hace modulo cantidad empleados
 def hashEmpleado(empleado):
     # Usamos el apellido y nombre para generar la clave de hash
-    clave = (empleado.apellido + empleado.nombre).lower()  # Convertimos a minúsculas para consistencia
+    clave = (empleado.apellido + empleado.nombre).lower()  # Convertimos a string minúsculas para consistencia
     if len(clave) % 2 != 0:
         clave += "\0"  # Si la longitud es impar, añadimos un byte nulo para completar el par  
     i = 0
     hash_value = 0
     while i < len(clave)/2:
-        hash_value = hash_value ^ clave[i:i+2].encode("ascii", errors="replace")  # XOR de cada par de caracteres
+        hash_value = hash_value ^ ord(clave[i])<<8 | ord(clave[i+1])  # XOR de cada par de caracteres
+        i += 2
     return hash_value
         
 # le llega un bloque de 86 bytes,omite el primero y lo convierte a string y lo devuelve como un objeto Empleado
@@ -70,4 +71,9 @@ def iniciaArchivo():
     	f.write(b"\x00" * INITIALFILESIZE)
 	# haciendo seek INITIALFILESIZE (o mas 1) llegas al comienzo del área separada de overflow
 
+empleado1 = Empleado("Gomez", "Juan", "Av Siempreviva 742", "2234205623", "01/01/2020")
+empleado2 = Empleado("Gomez", "Juani", "Calle Falsa 123", "2231234567", "15/03/2019")
+empleado3 = Empleado("Lopez", "Carlos", "Calle Real 456", "2239876543", "30/06/2021")
 
+for empleado in [empleado1, empleado2, empleado3]:
+    print(f"Empleado: {empleado.apellido} {empleado.nombre}, Hash: {hashEmpleado(empleado)}")   
