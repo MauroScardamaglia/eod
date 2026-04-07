@@ -43,12 +43,12 @@ def hashEmpleado(empleado):
     # Usamos el apellido y nombre para generar la clave de hash
     clave = (empleado.apellido + empleado.nombre).lower()  # Convertimos a string minúsculas para consistencia
     if len(clave) % 2 != 0:
-        clave += "\0"  # Si la longitud es impar, añadimos un byte nulo para completar el par  
+        clave += '\0'  # Si la longitud es impar, añadimos un byte nulo para completar el par  
     i = 0
     hash_value = 0
-    while i < len(clave)/2:
-        hash_value = hash_value ^ ord(clave[i])<<8 | ord(clave[i+1])  # XOR de cada par de caracteres
-        i += 2
+    while i < len(clave):
+        hash_value = hash_value ^ (ord(clave[i])<<8 | ord(clave[i+1]))  # XOR de cada par de caracteres
+        i += 2 
     return hash_value
         
 # le llega un bloque de 86 bytes,omite el primero y lo convierte a string y lo devuelve como un objeto Empleado
