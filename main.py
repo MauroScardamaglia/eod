@@ -36,8 +36,19 @@ class Empleado:
         binario += stringToBytes(self.direccion, 30)
         binario += stringToBytes(self.telefono, 10)
         binario += stringToBytes(self.fechaIngreso, 10)
-        return binario        
-        
+        return binario 
+
+#devuelve un hash de 2 bytes (16 bits) a partir del apellido y nombre del empleado, para usarlo como clave en la tabla hash, no hace modulo cantidad empleados
+def hashEmpleado(empleado):
+    # Usamos el apellido y nombre para generar la clave de hash
+    clave = (empleado.apellido + empleado.nombre).lower()  # Convertimos a minúsculas para consistencia
+    if len(clave) % 2 != 0:
+        clave += "\0"  # Si la longitud es impar, añadimos un byte nulo para completar el par  
+    i = 0
+    hash_value = 0
+    while i < len(clave)/2:
+        hash_value = hash_value ^ clave[i:i+2].encode("ascii", errors="replace")  # XOR de cada par de caracteres
+    return hash_value
         
 # le llega un bloque de 86 bytes,omite el primero y lo convierte a string y lo devuelve como un objeto Empleado
 def toEmpleado(binario):
@@ -58,3 +69,5 @@ def iniciaArchivo():
     with open(RUTA, "wb") as f:
     	f.write(b"\x00" * INITIALFILESIZE)
 	# haciendo seek INITIALFILESIZE (o mas 1) llegas al comienzo del área separada de overflow
+
+
