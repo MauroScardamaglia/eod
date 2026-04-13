@@ -1,0 +1,20 @@
+ 1) Suponga un sistema para la gestión de una maratón de 42Km. El cupo máximo es de 12000 corredores.
+ En la inscripción cada corredor provee: número de DNI, nombre, sexo, edad, categoría. Hay un último campo que es el tiempo (que se carga al finalizar la carrera).
+ Para la solución se deberá usar un archivo directo, donde deberá diseñar una función hash que mapee número de DNI a posición en el archivo
+ (que es el número de corredor otorgado en el momento de la inscripción).
+ 
+ Implemente: función hash, archivo, altas, modificaciones, bajas.
+ Carga de tiempos. Listados de tiempos general y por categoría.
+ ¿Es eficiente esta solución al momento de imprimir los listados de clasificaciones generales y por categorías? ¿Usaría la misma solución si la toma de
+ tiempo se hace de forma electrónica con sensores tipo RFID en la largada, media maratón (km 21) y final (Km 42)? ¿Qué cambiaría?
+
+
+Registro
+dni: 8 bytes 46961534   --> nulo 00000000
+nombre: 30 bytes "Mario Antogno de las rosas"
+sexo: 1 byte "M/H"
+edad: 1 byte 0..255
+categoria: 1 byte "A/B"
+tiempo: 11 bytes?? "HH:MM:SS:MM"
+campo ocupado: 1 byte 0/1/2 -> 0: campo vacio, 1: campo ocupado, 2: campo eliminado  
+total: 53 bytes
